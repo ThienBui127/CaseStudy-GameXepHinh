@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .score-box {
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 340px;
+        color: blueviolet;
+    }
+
+    .game {
+        text-align: center;
+        color: ;
+    }
+    #body{
+        background: linear-gradient(rgba(0,0,0,0.5),#013e38),url(1.jpg);
+        background-size: auto;
+    }
+</style>
+
+<body id="body">
+    <h1 style="font-size: 50px; text-align: center; color: blueviolet;">Tetris Game</h1>
+    <div class="game">
+        <div class="score-box">
+            Score: <div id="score">0</div>
+        </div>
+        <canvas id="canvas" width="400" height="800"></canvas>
+    </div>
+
+    <script src="index.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>
