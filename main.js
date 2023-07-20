@@ -3,18 +3,16 @@ const ctx = canvas.getContext("2d");
 
 const ROW = 20;
 const COL = 10;
-const SQ = 40;
+const OV = 40;
 const COLOR = "CORAL";
 let score = 0;
 
 function drawSquare(x,y, color) {
     ctx.fillStyle = color;
-    ctx.fillRect(x * SQ, y* SQ, SQ, SQ);
-
-    ctx.strokeStyle = "#ccc";
-    ctx.strokeRect(x* SQ, y* SQ, SQ, SQ);
+    ctx.fillRect(x * OV, y* OV, OV, OV);
+    ctx.strokeStyle = "gray";
+    ctx.strokeRect(x* OV, y* OV, OV, OV);
 }
-
 let board = [];
 for (r = 0; r < ROW; r++){
     board [r] = [];
@@ -72,7 +70,6 @@ class Piece{
         }
         
     }
-
     moveLeft(){
         if (!this.collision(-1, 0, this.activeTetromino)){
             this.unDraw();
@@ -80,15 +77,15 @@ class Piece{
             this.draw();
         }
     }
-
     moveRight(){
         if (!this.collision(1, 0, this.activeTetromino)){
             this.unDraw();
             this.x++;
             this.draw();
         }
-    }
+    }   
 
+    //Khoá hình và kết thúc game
     lock(){
         for (let r=0; r< this.activeTetromino.length; r++){
             for (let c=0; c< this.activeTetromino.length; c++){
@@ -97,7 +94,7 @@ class Piece{
                 }
 
                 if(this.y + r <0){
-                    alert('Game over');
+                    alert('Chết cmnr');
                     gameOver = true;
                     break
                 }
@@ -107,11 +104,11 @@ class Piece{
         }
         //xử lý ăn điểm
         for (let r = 0; r < ROW; r++){
-            let isFull = true;
+            let Full = true;
             for (let c = 0; c <COL; c++){
-                isFull = isFull && (board[r][c] != COLOR)
+                Full = Full && (board[r][c] != COLOR)
             }
-            if(isFull){
+            if(Full){
                 for (let y=r; y>1; y--){
                     for(let c=0; c < COL ; c++){
                         board[y][c] = board [y-1][c];
@@ -130,18 +127,18 @@ class Piece{
         document.querySelector('#score').innerText = score;
     }
 
-
+    //Xoay hình
         rotate(){
-            let nextPattern = this.tetromino[(this.tetrominoN + 1) % this.tetromino.length];
+            let next = this.tetromino[(this.tetrominoN + 1) % this.tetromino.length];
             let move = 0;
-            if(this.collision(0,0, nextPattern)){
+            if(this.collision(0,0, next)){
                 if(this.x > COL / 2){
                     move = -1;
                 }else {
                     move = 1;
                 }
             }
-            if (!this.collision(0,0, nextPattern)){
+            if (!this.collision(0,0, next)){
                 this.unDraw();
                 this.x += move;
                 this.tetrominoN = (this.tetrominoN + 1) % this.tetromino.length;
@@ -150,6 +147,7 @@ class Piece{
             }
         }
 
+        //Tạo va chạm với bên trái, bên phải, bên dưới
     collision(x,y,piece){
         for (let r = 0; r< piece.length; r++){
             for (let c = 0; c< piece.length; c++){
@@ -178,8 +176,7 @@ class Piece{
 }
 
 const PIECES = [
-    [Z, "red"],
-    [S, "green"],
+    [S, "red"],
     [T, "yellow"],
     [O, "blue"],
     [L, "purple"],
@@ -196,7 +193,7 @@ let p = randomPiece();
 console.log(p);
 
 
-//di chuyển hình sang 2 bên và xuống dưới
+//di chuyển hình sang 2 bên, xuống dưới và xoay hình 
 document.addEventListener('keydown',function(e){
     if(e.keyCode == 37){
         p.moveLeft();
